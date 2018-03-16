@@ -1,0 +1,10 @@
+.container {
+    width: 200px;
+    height: 100px;
+    background: blue;
+    -webkit-transition: all .2s ease-out;
+    transition: all .2s ease-out;
+    &:hover {
+        background: yellow;
+    }
+}
