@@ -3,3 +3,7 @@
     height: 50px;
     background: yellow;
 }
+
+.container {
+    aspect-ratio: '16:9';
+}

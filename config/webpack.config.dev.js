@@ -1,6 +1,26 @@
 'use strict';
 
 const autoprefixer = require('autoprefixer');
+/*H5 适配*/
+const postcssAspectRatioMini = require('postcss-aspect-ratio-mini');
+const postcssPxToViewport = require('postcss-px-to-viewport');
+const postcssWriteSvg = require('postcss-write-svg');
+const postcssCssnext = require('postcss-cssnext');
+const postcssViewportUnits = require('postcss-viewport-units');
+const cssnano = require('cssnano');
+
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+
+const cssFilename = 'static/css/[name].[contenthash:8].css';
+
+const shouldUseRelativeAssetPaths = true;
+
+const extractTextPluginOptions = shouldUseRelativeAssetPaths
+  ? // Making sure that the publicPath goes back to to build folder.
+    { publicPath: Array(cssFilename.split('/').length).join('../') }
+  : {};
+
+/*H5 适配结束*/
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -162,82 +182,90 @@ module.exports = {
           // in development "style" loader enables hot editing of CSS.
           {
             test: /\.css$/,
-            use: [
-              require.resolve('style-loader'),
-              { 
-                loader: require.resolve('typings-for-css-modules-loader'),
-                options: {
-                  namedExport: true,
-                  camelCase: true,
-                  modules: true,
-                }
-              },
-              // {
-              //   loader: require.resolve('css-loader'),
-              //   options: {
-              //     // modules: true,
-              //     importLoaders: 1,
-              //     camelCase: true,
-              //     localIdentName: '[name]_[local]_[hash:base64:5]'
-              //   },
-              // },
-              {
-                loader: require.resolve('postcss-loader'),
-                options: {
-                  // Necessary for external CSS imports to work
-                  // https://github.com/facebookincubator/create-react-app/issues/2677
-                  ident: 'postcss',
-                  plugins: () => [
-                    require('postcss-flexbugs-fixes'),
-                    autoprefixer({
-                      browsers: [
-                        '>1%',
-                        'last 4 versions',
-                        'Firefox ESR',
-                        'not ie < 9', // React doesn't support IE8 anyway
-                      ],
-                      flexbox: 'no-2009',
-                    }),
+            loader: ExtractTextPlugin.extract(
+              Object.assign(
+                {
+                  fallback: {
+                    loader: require.resolve('style-loader'),
+                    options: {
+                      modules: true
+                    },
+                  },
+                  use: [
+                    // {
+                    //   loader: require.resolve('style-loader'),
+                    //   options: {
+                    //     modules: true 
+                    //   }
+                    // },
+                    // { 
+                    //   loader: require.resolve('typings-for-css-modules-loader'),
+                    //   options: {
+                    //     namedExport: true,
+                    //     camelCase: true,
+                    //     modules: true,
+                    //   }
+                    // },
+                    {
+                      loader: require.resolve('css-loader'),
+                      options: {
+                        modules: true,
+                        importLoaders: 1,
+                        // camelCase: true,
+                        // localIdentName: '[name]_[local]_[hash:base64:5]'
+                      },
+                    },
+                    {
+                      loader: require.resolve('postcss-loader'),
+                      options: {
+                        // Necessary for external CSS imports to work
+                        // https://github.com/facebookincubator/create-react-app/issues/2677
+                        ident: 'postcss',
+                        plugins: () => [
+                          require('postcss-flexbugs-fixes'),
+                          autoprefixer({
+                            browsers: [
+                              '>1%',
+                              'last 4 versions',
+                              'Firefox ESR',
+                              'not ie < 9', // React doesn't support IE8 anyway
+                            ],
+                            flexbox: 'no-2009',
+                          }),
+                          postcssAspectRatioMini({}),
+                          postcssPxToViewport({ 
+                            viewportWidth: 750, // (Number) The width of the viewport. 
+                            viewportHeight: 1334, // (Number) The height of the viewport. 
+                            unitPrecision: 3, // (Number) The decimal numbers to allow the REM units to grow to. 
+                            viewportUnit: 'vw', // (String) Expected units. 
+                            selectorBlackList: ['.ignore', '.hairlines'], // (Array) The selectors to ignore and leave as px. 
+                            minPixelValue: 1, // (Number) Set the minimum pixel value to replace. 
+                            mediaQuery: false // (Boolean) Allow px to be converted in media queries. 
+                          }),
+      
+      
+                          postcssWriteSvg({
+                            utf8: false
+                          }),
+      
+                          postcssCssnext({}),
+      
+                          postcssViewportUnits({}),
+      
+                          cssnano({
+                            preset: "advanced", 
+                            autoprefixer: false, 
+                            "postcss-zindex": false 
+                          })
+                        ],
+                      }
+                    }
                   ],
-                }
-              }
-            ],
-          },
-          {
-            test: /\.scss$/,
-            use: [{ 
-                loader: require.resolve('typings-for-css-modules-loader'),
-                options: {
-                  namedExport: true,
-                  camelCase: true,
-                  modules: true,
-                  sass: true
-                }
-              },
-              {
-                loader: require.resolve('postcss-loader'),
-                options: {
-                  // Necessary for external CSS imports to work
-                  // https://github.com/facebookincubator/create-react-app/issues/2677
-                  ident: 'postcss',
-                  plugins: () => [
-                    require('postcss-flexbugs-fixes'),
-                    autoprefixer({
-                      browsers: [
-                        '>1%',
-                        'last 4 versions',
-                        'Firefox ESR',
-                        'not ie < 9', // React doesn't support IE8 anyway
-                      ],
-                      flexbox: 'no-2009',
-                    }),
-                  ],
-                }
-              },
-              // {
-              //   loader: require.resolve('sass-loader')
-              // }
-            ],
+                },
+                extractTextPluginOptions
+              )
+            )
+            
           },
           // "file" loader makes sure those assets get served by WebpackDevServer.
           // When you `import` an asset, you get its (virtual) filename.
@@ -307,6 +335,10 @@ module.exports = {
       watch: paths.appSrc,
       tsconfig: paths.appTsConfig,
       tslint: paths.appTsLint,
+    }),
+
+    new ExtractTextPlugin({
+      filename: cssFilename,
     }),
   ],
   // Some libraries import Node modules but don't use them in the browser.
