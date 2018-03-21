@@ -1,10 +1,10 @@
 import { DemoActions } from '../actions/demo';
 import { Demo, Stores } from '../types/index';
 import { DECREMENT_DEMO, INCREMENT_DEMO, RECEIVE_PRODUCTS } from '../constants';
-import initState from './initState';
+// import initState from './initState';
 import { merge } from 'lodash';
 
-export default function demo (state: Demo = initState.demo, action: DemoActions): Demo {
+export default function demo (state: Demo = {test: 0, products: []}, action: DemoActions): Demo {
     switch (action.type) {
         
         case INCREMENT_DEMO:

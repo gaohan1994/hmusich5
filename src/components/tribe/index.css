@@ -1,0 +1,27 @@
+.container {
+    float: left;
+    width: 150px;
+}
+
+.container::after {
+    content: '';
+    display: block;
+    height: 0;
+    overflow: hidden;
+    clear: both;
+}
+
+.cover {
+    width: 150px;
+    height: 112px;
+    float: left;
+}
+
+.name {
+    width: 150px;
+    height: 38px;
+    line-height: 38px;
+    text-align: center;
+    font-size: 16px;
+    color: #020202;
+}

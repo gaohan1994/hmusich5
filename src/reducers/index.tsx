@@ -1,9 +1,6 @@
-// import number from './number';
-import demo from './demo';
-import match from './match';
 import { combineReducers } from 'redux';
+import main from './main';
 
 export default combineReducers({
-    demo: demo,
-    match: match,
+    main: main,
 });

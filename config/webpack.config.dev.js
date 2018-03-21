@@ -11,7 +11,7 @@ const cssnano = require('cssnano');
 
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
-const cssFilename = 'static/css/[name].[contenthash:8].css';
+const cssFilename = 'static/css/bundle.css';
 
 const shouldUseRelativeAssetPaths = true;
 
@@ -234,7 +234,7 @@ module.exports = {
                           }),
                           postcssAspectRatioMini({}),
                           postcssPxToViewport({ 
-                            viewportWidth: 750, // (Number) The width of the viewport. 
+                            viewportWidth: 720, // (Number) The width of the viewport. 
                             viewportHeight: 1334, // (Number) The height of the viewport. 
                             unitPrecision: 3, // (Number) The decimal numbers to allow the REM units to grow to. 
                             viewportUnit: 'vw', // (String) Expected units. 

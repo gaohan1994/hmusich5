@@ -1,0 +1,161 @@
+.container {
+    position: relative;
+    float: left;
+    width: 100%;
+    height: 300px;
+    overflow: hidden;
+    background: #f1f1f1;
+}
+
+/* background img */
+.icon, .itemBox, userImg, .collect, .collectIcon {
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+}
+
+.container::after, .user::after {
+    content: '';
+    display: block;
+    height: 0;
+    overflow: hidden;
+    clear: both;
+}
+
+
+.trig {
+    position: absolute;
+    top: 20px;
+    left: 0;
+    right: 0;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+}
+
+.trig > span {
+    z-index: 3;
+    display: inline-block;
+    background: #ffffff;
+    width: 26px;
+    height: 6px;
+    margin: 0 0 0 16px;
+}
+
+.trig > .on {
+    background: #f27a7a;
+}
+
+.playlist {
+    overflow: hidden;
+    float: left;
+    position: relative;
+    height: 100%;
+    -webkit-transition: all .2s ease-out;
+    transition: all .2s ease-out;
+}
+
+.item {
+    display: list-item;
+    position: relative;
+    float: left;
+    width: 560px;
+    height: 100%;
+}
+
+.itemBox {
+    width: 100%;
+    height: 100%;
+}
+
+.icon {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 70px;
+    height: 70px;
+    background-image: url('http://net.huanmusic.com/www/h5/HOT%E6%A0%87%E7%AD%BE.png');
+}
+
+.user {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+}
+
+.userImg {
+    float: left;
+    display: block;
+    width: 80px;
+    height: 80px;
+    border: 2px solid #ffffff;
+    border-radius: 40px;
+}
+
+.userName {
+    float: left;
+    font-size: 14px;
+    line-height: 20px;
+    margin: 30px 0 0 5px;
+    color: #ffffff;
+}
+
+.collect {
+    position: absolute;
+    bottom: 80px;
+    right: 0;
+    width: 150px;
+    height: 40px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    background-image: url('http://net.huanmusic.com/www/h5/%E4%BA%BA%E6%B0%94%E5%80%BC%E5%BA%95%E6%9D%BF.png');
+}
+
+.collectIcon {
+    width: 30px;
+    height: 30px;
+    background-image: url('http://net.huanmusic.com/www/h5/%E4%BA%BA%E6%B0%94%E5%80%BC.png');
+}
+
+.collectNumber {
+    margin-left: 6px;
+    font-size: 14px;
+    color: #ffffff;
+}
+
+.name, .reason {
+    font-size: 16px;
+    color: #ffffff;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; 
+}
+
+.name {
+    position: absolute;
+    width: 300px;
+    top: 188px;
+    left: 20px;
+    line-height: 20px;
+}
+
+.reason {
+    position: absolute;
+    width: 520px;
+    top: 220px;
+    left: 20px;
+    line-height: 20px
+}

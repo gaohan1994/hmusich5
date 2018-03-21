@@ -24,8 +24,8 @@ class Home extends React.Component<Props, State> {
     }
 
     componentDidMount() {
-        const { receiveMatches } = this.props;
-        receiveMatches();
+        // const { receiveMatches } = this.props;
+        // receiveMatches();
     }
 
     _renderMatches = () => {

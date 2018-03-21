@@ -1,10 +1,6 @@
 export default {
-    demo: {
-        test: 0,
-        products: [],
-    },
-
-    match: {
-        matches: [],
-    },
+    main: {
+        playlist: [],
+        tribe   : [],
+    }
 };

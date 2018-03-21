@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { incrementDemo, decrementDemo, DemoActions, receiveProducts } from '../../actions/demo';
-import DemoClass from '../../components/Demo';
+// import DemoClass from '../../components/Demo';
 import { Stores } from '../../types/index';
 import { connect, Dispatch } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -27,14 +27,8 @@ class DemoContainer extends React.Component<Props, {}> {
     }
 
     render() {
-        const { test, products, incrementDemo, decrementDemo } = this.props;
         return (
-            <DemoClass
-                test={test}
-                products={products}
-                incrementDemo={incrementDemo}
-                decrementDemo={decrementDemo}
-            />
+            123
         );
     }
 }
