@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Stores } from '../../types/reducerTypes';
-// import { PlaylistType } from '../../types/componentTypes';
+import { TribesType } from '../../types/componentTypes';
 import { connect, Dispatch } from 'react-redux';
 import * as CSSModules from 'react-css-modules';
 import { bindActionCreators } from 'redux';
@@ -11,14 +11,17 @@ import Header from '../../components/header';
 import Swiper from '../../components/swiper';
 import Music from '../../components/music_new';
 import Playlists from '../../components/playlist';
+import Tribe from '../../components/tribe';
+import Footer from '../../components/footer';
 
 import { loadRecommendPlaylist, loadRecommendTribe } from '../../actions/main';
 import { getPlaylist, getTribe } from '../../reducers/main';
 
 export interface Props {
     getPlaylist : Array<Object>;
-    getTribe    : Array<Object>;
-    loadRecommendPlaylist: () => void;
+    getTribe    : TribesType;
+    loadRecommendPlaylist   : () => void;
+    loadRecommendTribe      : () => void;
 }
 
 export interface State {
@@ -37,8 +40,9 @@ export interface State {
 class Main extends React.Component<Props, State> {
 
     componentDidMount() {
-        const { loadRecommendPlaylist } = this.props;
+        const { loadRecommendPlaylist, loadRecommendTribe } = this.props;
         loadRecommendPlaylist();
+        loadRecommendTribe();
     }
 
     render() {
@@ -49,6 +53,7 @@ class Main extends React.Component<Props, State> {
                 {this.renderMusics()}
                 {this.renderPlaylists()}
                 {this.renderTribes()}
+                <Footer/>
             </div>
         );
     }
@@ -93,6 +98,15 @@ class Main extends React.Component<Props, State> {
     }
 
     private renderTribes = () => {
+        const { getTribe } = this.props;
+        const tribes = getTribe && getTribe.map((item) => (
+            <li 
+                styleName="tribeItem"
+                key={item._id}
+            >
+                <Tribe tribe={item.tribe}/>
+            </li>
+        ));
         return (
             <section styleName="tribes">
                 <i styleName="more"/>
@@ -100,7 +114,7 @@ class Main extends React.Component<Props, State> {
                     <i styleName="tribeIcon"/>
                 </div>
                 <ul styleName="tribesBox">
-                    <li styleName="tribeItem">tribe</li>
+                    {tribes}
                 </ul>
             </section>
         );

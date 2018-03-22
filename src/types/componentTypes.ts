@@ -49,10 +49,10 @@ export type TribeType = {
     name            : string
 };
 
-export type TribesType = {
+export type TribesType = Array<{
     _id         : string;
     create_date : string;
     status      : number;
     tribe       : TribeType;
     type        : number;
-};
+}>;

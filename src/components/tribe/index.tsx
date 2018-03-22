@@ -28,7 +28,7 @@ class Tribe extends React.Component<Props, State> {
                             ? `url(http://${config.host.pic}/${tribe.headimg}?imageView/2/w/100/h/100)` 
                             : `url(${config.empty_pic})`}}
                 />
-                <span>{tribe.name}</span>
+                <span styleName="name">{tribe.name}</span>
             </section>
         );
     }

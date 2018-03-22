@@ -1,5 +1,6 @@
 .container {
     width: 720px;
+    padding-bottom: 100px;
     float: left;
 }
 .container::after {
@@ -151,6 +152,7 @@
 
 .tribes {
     height: 250px;
+    margin-bottom: 20px;
 }
 
 .playlistBox {
