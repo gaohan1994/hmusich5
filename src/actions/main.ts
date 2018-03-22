@@ -1,6 +1,7 @@
 require('es6-promise').polyfill();
 import * as fetch from 'isomorphic-fetch';
 import * as constants from '../constants/main';
+import { WrapImagesType, MainNewMusicsType } from '../types/componentTypes';
 import { Dispatch } from 'redux';
 import config from '../config/index';
 
@@ -14,7 +15,17 @@ export interface LoadRecommendTribe {
     tribe: Array<Object>;
 }
 
-export type MainActions = LoadRecommendPlaylist | LoadRecommendTribe;
+export interface LoadMainImages {
+    type: constants.RECEIVE_MAIN_SWIPER_IMAGES;
+    images: WrapImagesType;
+}
+
+export interface LoadMainNewMusics {
+    type: constants.RECEIVE_MAIN_NEW_MUSICS;
+    musics: MainNewMusicsType;
+}
+
+export type MainActions = LoadRecommendPlaylist | LoadRecommendTribe | LoadMainImages | LoadMainNewMusics;
 
 export const loadRecommendPlaylist = () => (dispatch: Dispatch<MainActions>) => {
     return  fetch(`/trend`, {
@@ -48,5 +59,36 @@ export const loadRecommendTribe = () => (dispatch: Dispatch<MainActions>) => {
                 } else {
                     throw new Error('loadRecommendTribe Error');
                 }
+            });
+};
+
+export const loadMainImages = () => (dispatch: Dispatch<MainActions>) => { 
+    return  fetch(`/entry/v2`)
+            .then(res => res.json())
+            .then(token => {
+                const { slide } = token;
+                let key = '';
+                if (process.env.NODE_ENV === 'production') {
+                    key = 's2_';
+                } else {
+                    key = 'ds2_';
+                }
+                fetch(`http://${config.host.pic}/${key}${slide}`)
+                .then(res => res.json())
+                .then(res => {
+                    dispatch({type: constants.RECEIVE_MAIN_SWIPER_IMAGES, images: res});
+                });
+            });
+};
+
+export const loadMainNewMusics = () => (dispatch: Dispatch<MainActions>) => { 
+    return  fetch(`/daily`)
+            .then(res => res.json())
+            .then(res => {
+                fetch(`${res.url}`)
+                .then(res => res.json())
+                .then(res => {
+                    dispatch({type: constants.RECEIVE_MAIN_NEW_MUSICS, musics: res});
+                });
             });
 };

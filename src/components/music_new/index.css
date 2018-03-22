@@ -35,7 +35,6 @@
 }
 
 .mask {
-    position: absolute;
     width: 60px;
     height: 60px;
     background-size: 100%;

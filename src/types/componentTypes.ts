@@ -25,6 +25,16 @@ export type MusicType = {
     words   : Array<string>;
 };
 
+export type MainNewMusicsType = {
+    _id             : string;
+    desc            : string;
+    musics          : Array<MusicType>;
+    pic             : string;
+    publish_date    ?: string;
+    tribes          ?: Array<Object>;
+    type            : number;
+};
+
 export type PlaylistType = {
     _id         : string;
     collect     : number;
@@ -38,6 +48,8 @@ export type PlaylistType = {
     status      : number;
     user        : UserType;
 };
+
+export type PlaylistsType = Array<PlaylistType>;
 
 export type TribeType = {
     _id             : string;
@@ -56,3 +68,13 @@ export type TribesType = Array<{
     tribe       : TribeType;
     type        : number;
 }>;
+
+export type WrapImageType = {
+    param   : string;
+    pic     : string;
+    tag     : string;
+    title   : string;
+    type    : 2;
+};
+
+export type WrapImagesType = Array<WrapImageType>;

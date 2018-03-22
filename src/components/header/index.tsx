@@ -9,7 +9,7 @@ interface Props {
 interface State {
     
 }
-
+// @CSSModules(styles)
 class Header extends React.Component<Props, State> {
 
     constructor(props: Props) {
@@ -27,5 +27,4 @@ class Header extends React.Component<Props, State> {
 }
 
 const HeaderHoc = CSSModules(Header, styles);
-
 export default HeaderHoc;

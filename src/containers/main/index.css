@@ -2,6 +2,7 @@
     width: 720px;
     padding-bottom: 100px;
     float: left;
+    background-color: #f7f7f7;
 }
 .container::after {
     content: '';
@@ -16,15 +17,16 @@
 
 .daliymusic, .playlists, .tribes {
     position: relative;
+    background-color: #ffffff;
     float: left;
     width: 680px;
     margin: 20px 0 0 20px;
     -webkit-box-sizing: border-box;
             box-sizing: border-box;
-    border: 2px solid #dddddd;
+    /* border: 2px solid #dddddd; */
     border-radius: 10px;
-    -webkit-box-shadow: 6px 6px 6px #dddddd;
-            box-shadow: 6px 6px 6px #dddddd;
+    -webkit-box-shadow: 6px 6px 6px  #dddddd;
+            box-shadow: 6px 6px 6px  #dddddd;
 }
 
 .daliymusic {
@@ -50,7 +52,7 @@
     display: block;
     position: absolute;
     background-repeat: no-repeat;
-    background-size: 100%;
+    background-size: 100% 100%;
 }
 
 .more {
@@ -69,7 +71,7 @@
     position: relative;
     float: left;
     width: 100%;
-    height: 50px;
+    height: 70px;
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -83,7 +85,6 @@
 
 .icon, .tribeIcon {
     display: block;
-    position: absolute;
     background-repeat: no-repeat;
     background-size: 100%;
 }
@@ -102,7 +103,6 @@
     float: left;
     width: 100%;
     overflow: hidden;
-    margin-top: 6px;
 }
 
 .musicitem {

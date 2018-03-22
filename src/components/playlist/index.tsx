@@ -34,7 +34,6 @@ class Playlists extends React.Component<Props, State> {
         this.state = {
             current: 1,
         };
-        
     }
 
     public changePage = (e: number) => {

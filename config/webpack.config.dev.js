@@ -211,8 +211,8 @@ module.exports = {
                       options: {
                         modules: true,
                         importLoaders: 1,
-                        // camelCase: true,
-                        // localIdentName: '[name]_[local]_[hash:base64:5]'
+                        camelCase: true,
+                        localIdentName: '[name]_[local]_[hash:base64:5]'
                       },
                     },
                     {
@@ -223,6 +223,7 @@ module.exports = {
                         ident: 'postcss',
                         plugins: () => [
                           require('postcss-flexbugs-fixes'),
+                          
                           autoprefixer({
                             browsers: [
                               '>1%',
@@ -232,7 +233,9 @@ module.exports = {
                             ],
                             flexbox: 'no-2009',
                           }),
+
                           postcssAspectRatioMini({}),
+                          
                           postcssPxToViewport({ 
                             viewportWidth: 720, // (Number) The width of the viewport. 
                             viewportHeight: 1334, // (Number) The height of the viewport. 
@@ -242,7 +245,6 @@ module.exports = {
                             minPixelValue: 1, // (Number) Set the minimum pixel value to replace. 
                             mediaQuery: false // (Boolean) Allow px to be converted in media queries. 
                           }),
-      
       
                           postcssWriteSvg({
                             utf8: false

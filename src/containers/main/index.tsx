@@ -1,10 +1,8 @@
 import * as React from 'react';
-import { Stores } from '../../types/reducerTypes';
-import { TribesType } from '../../types/componentTypes';
 import { connect, Dispatch } from 'react-redux';
 import * as CSSModules from 'react-css-modules';
 import { bindActionCreators } from 'redux';
-import { MatchActions } from '../../actions/match';
+import { MainActions } from '../../actions/main';
 import * as styles from './index.css';
 
 import Header from '../../components/header';
@@ -14,14 +12,38 @@ import Playlists from '../../components/playlist';
 import Tribe from '../../components/tribe';
 import Footer from '../../components/footer';
 
-import { loadRecommendPlaylist, loadRecommendTribe } from '../../actions/main';
-import { getPlaylist, getTribe } from '../../reducers/main';
+import { Stores } from '../../types/reducerTypes';
+
+import { 
+    TribesType, 
+    WrapImagesType,
+    MainNewMusicsType,
+    PlaylistsType,
+} from '../../types/componentTypes';
+
+import { 
+    loadRecommendPlaylist, 
+    loadRecommendTribe,
+    loadMainImages,
+    loadMainNewMusics,
+} from '../../actions/main';
+
+import { 
+    getPlaylist, 
+    getTribe,
+    getWrapImages,
+    getMainNewMusics,
+} from '../../reducers/main';
 
 export interface Props {
-    getPlaylist : Array<Object>;
-    getTribe    : TribesType;
+    getPlaylist             : PlaylistsType;
+    getTribe                : TribesType;
+    getWrapImages           : WrapImagesType;
+    getMainNewMusics        : MainNewMusicsType;
     loadRecommendPlaylist   : () => void;
     loadRecommendTribe      : () => void;
+    loadMainImages          : () => void;
+    loadMainNewMusics       : () => void;
 }
 
 export interface State {
@@ -40,16 +62,24 @@ export interface State {
 class Main extends React.Component<Props, State> {
 
     componentDidMount() {
-        const { loadRecommendPlaylist, loadRecommendTribe } = this.props;
+        const { 
+            loadRecommendPlaylist, 
+            loadRecommendTribe,
+            loadMainImages,
+            loadMainNewMusics,
+        } = this.props;
         loadRecommendPlaylist();
         loadRecommendTribe();
+        loadMainImages();
+        loadMainNewMusics();
     }
 
     render() {
+        const { getWrapImages } = this.props;
         return (
             <div styleName="container">
                 <Header/>
-                <Swiper/>
+                <Swiper images={getWrapImages}/>
                 {this.renderMusics()}
                 {this.renderPlaylists()}
                 {this.renderTribes()}
@@ -59,23 +89,22 @@ class Main extends React.Component<Props, State> {
     }
 
     private renderMusics = () => {
+        const { getMainNewMusics } = this.props;
+        const musics = getMainNewMusics.musics && getMainNewMusics.musics.slice(0, 3).map((item) => (
+            <li 
+                styleName="musicitem"
+                key={item._id}
+            >
+                <Music music={item}/>
+            </li>
+        ));
         return (
             <section styleName="daliymusic">
                 <i styleName="more"/>
                 <div styleName="title">
                     <i styleName="icon"/>
                 </div>
-                <ul styleName="musics">
-                    <li styleName="musicitem">
-                        <Music/>
-                    </li>
-                    <li styleName="musicitem">
-                        <Music/>
-                    </li>
-                    <li styleName="musicitem">
-                        <Music/>
-                    </li>
-                </ul>
+                <ul styleName="musics">{musics}</ul>
             </section>
         );
     }
@@ -124,13 +153,17 @@ class Main extends React.Component<Props, State> {
 const MainHoc = CSSModules(Main, styles);
 
 export const mapStateToProps = (state: Stores) => ({
-    getPlaylist : getPlaylist(state),
-    getTribe    : getTribe(state),
+    getPlaylist     : getPlaylist(state),
+    getTribe        : getTribe(state),
+    getWrapImages   : getWrapImages(state),
+    getMainNewMusics: getMainNewMusics(state),
 });
 
-export const mapDispatchToProps = (dispatch: Dispatch<MatchActions>) => ({
+export const mapDispatchToProps = (dispatch: Dispatch<MainActions>) => ({
     loadRecommendPlaylist   : bindActionCreators(loadRecommendPlaylist, dispatch),
     loadRecommendTribe      : bindActionCreators(loadRecommendTribe, dispatch),
+    loadMainImages          : bindActionCreators(loadMainImages, dispatch),
+    loadMainNewMusics       : bindActionCreators(loadMainNewMusics, dispatch),
 });
 
 export const mergeProps = (stateProps: Object, dispatchProps: Object, ownProps: Object) => 

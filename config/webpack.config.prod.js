@@ -23,6 +23,10 @@ const paths = require('./paths');
 const getClientEnvironment = require('./env');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 
+//
+const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
+const WatchMissingNodeModulesPlugin = require('react-dev-utils/WatchMissingNodeModulesPlugin');
+
 // Webpack uses `publicPath` to determine where the app is being served from.
 // It requires a trailing slash, or the file assets will get an incorrect path.
 const publicPath = paths.servedPath;
@@ -179,6 +183,79 @@ module.exports = {
           // tags. If you use code splitting, however, any async bundles will still
           // use the "style" loader inside the async code so CSS from them won't be
           // in the main CSS file.
+          // {
+          //   test: /\.css$/,
+          //   loader: ExtractTextPlugin.extract(
+          //     Object.assign(
+          //       {
+          //         fallback: {
+          //           loader: require.resolve('style-loader'),
+          //           options: {
+          //             hmr: false,
+          //             modules: true
+          //           },
+          //         },
+          //         use: [
+          //           {
+          //             loader: require.resolve('css-loader'),
+          //             options: {
+          //               importLoaders: 1,
+          //               minimize: true,
+          //               sourceMap: shouldUseSourceMap,
+          //             },
+          //           },
+          //           {
+          //             loader: require.resolve('postcss-loader'),
+          //             options: {
+          //               // Necessary for external CSS imports to work
+          //               // https://github.com/facebookincubator/create-react-app/issues/2677
+          //               ident: 'postcss',
+          //               plugins: () => [
+          //                 require('postcss-flexbugs-fixes'),
+          //                 autoprefixer({
+          //                   browsers: [
+          //                     '>1%',
+          //                     'last 4 versions',
+          //                     'Firefox ESR',
+          //                     'not ie < 9', // React doesn't support IE8 anyway
+          //                   ],
+          //                   flexbox: 'no-2009',
+          //                 }),
+          //                 postcssAspectRatioMini({}),
+          //                 postcssPxToViewport({ 
+          //                   viewportWidth: 720, // (Number) The width of the viewport. 
+          //                   viewportHeight: 1334, // (Number) The height of the viewport. 
+          //                   unitPrecision: 3, // (Number) The decimal numbers to allow the REM units to grow to. 
+          //                   viewportUnit: 'vw', // (String) Expected units. 
+          //                   selectorBlackList: ['.ignore', '.hairlines'], // (Array) The selectors to ignore and leave as px. 
+          //                   minPixelValue: 1, // (Number) Set the minimum pixel value to replace. 
+          //                   mediaQuery: false // (Boolean) Allow px to be converted in media queries. 
+          //                 }),
+
+
+          //                 postcssWriteSvg({
+          //                   utf8: false
+          //                 }),
+
+          //                 postcssCssnext({}),
+
+          //                 postcssViewportUnits({}),
+
+          //                 cssnano({
+          //                   preset: "advanced", 
+          //                   autoprefixer: false, 
+          //                   "postcss-zindex": false 
+          //                 })
+          //               ],
+          //             },
+          //           },
+          //         ],
+          //       },
+          //       extractTextPluginOptions
+          //     )
+          //   ),
+          //   // Note: this won't work without `new ExtractTextPlugin()` in `plugins`.
+          // },
           {
             test: /\.css$/,
             loader: ExtractTextPlugin.extract(
@@ -187,16 +264,17 @@ module.exports = {
                   fallback: {
                     loader: require.resolve('style-loader'),
                     options: {
-                      hmr: false,
+                      modules: true
                     },
                   },
                   use: [
                     {
                       loader: require.resolve('css-loader'),
                       options: {
+                        modules: true,
                         importLoaders: 1,
-                        minimize: true,
-                        sourceMap: shouldUseSourceMap,
+                        camelCase: true,
+                        localIdentName: '[name]_[local]_[hash:base64:5]'
                       },
                     },
                     {
@@ -207,6 +285,7 @@ module.exports = {
                         ident: 'postcss',
                         plugins: () => [
                           require('postcss-flexbugs-fixes'),
+                          
                           autoprefixer({
                             browsers: [
                               '>1%',
@@ -216,7 +295,9 @@ module.exports = {
                             ],
                             flexbox: 'no-2009',
                           }),
+
                           postcssAspectRatioMini({}),
+                          
                           postcssPxToViewport({ 
                             viewportWidth: 720, // (Number) The width of the viewport. 
                             viewportHeight: 1334, // (Number) The height of the viewport. 
@@ -226,30 +307,29 @@ module.exports = {
                             minPixelValue: 1, // (Number) Set the minimum pixel value to replace. 
                             mediaQuery: false // (Boolean) Allow px to be converted in media queries. 
                           }),
-
-
+      
                           postcssWriteSvg({
                             utf8: false
                           }),
-
+      
                           postcssCssnext({}),
-
+      
                           postcssViewportUnits({}),
-
+      
                           cssnano({
                             preset: "advanced", 
                             autoprefixer: false, 
                             "postcss-zindex": false 
                           })
                         ],
-                      },
-                    },
+                      }
+                    }
                   ],
                 },
                 extractTextPluginOptions
               )
-            ),
-            // Note: this won't work without `new ExtractTextPlugin()` in `plugins`.
+            )
+            
           },
           // "file" loader makes sure assets end up in the `build` folder.
           // When you `import` an asset, you get its filename.
@@ -375,6 +455,58 @@ module.exports = {
       tslint: paths.appTsLint,
     }),
   ],
+  // plugins: [
+  //   // Makes some environment variables available in index.html.
+  //   // The public URL is available as %PUBLIC_URL% in index.html, e.g.:
+  //   // <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
+  //   // In development, this will be an empty string.
+  //   new InterpolateHtmlPlugin(env.raw),
+  //   // Generates an `index.html` file with the <script> injected.
+  //   new HtmlWebpackPlugin({
+  //     inject: true,
+  //     template: paths.appHtml,
+  //   }),
+  //   // Add module names to factory functions so they appear in browser profiler.
+  //   new webpack.NamedModulesPlugin(),
+  //   // Makes some environment variables available to the JS code, for example:
+  //   // if (process.env.NODE_ENV === 'development') { ... }. See `./env.js`.
+  //   new webpack.DefinePlugin(env.stringified),
+  //   // This is necessary to emit hot updates (currently CSS only):
+  //   new webpack.HotModuleReplacementPlugin(),
+  //   // Watcher doesn't work well if you mistype casing in a path so we use
+  //   // a plugin that prints an error when you attempt to do this.
+  //   // See https://github.com/facebookincubator/create-react-app/issues/240
+  //   new CaseSensitivePathsPlugin(),
+  //   // If you require a missing module and then `npm install` it, you still have
+  //   // to restart the development server for Webpack to discover it. This plugin
+  //   // makes the discovery automatic so you don't have to restart.
+  //   // See https://github.com/facebookincubator/create-react-app/issues/186
+  //   new WatchMissingNodeModulesPlugin(paths.appNodeModules),
+  //   // Moment.js is an extremely popular library that bundles large locale files
+  //   // by default due to how Webpack interprets its code. This is a practical
+  //   // solution that requires the user to opt into importing specific locales.
+  //   // https://github.com/jmblog/how-to-optimize-momentjs-with-webpack
+  //   // You can remove this if you don't use Moment.js:
+  //   new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+
+  //   //maybe should added into production config
+  //   // new webpack.WatchIgnorePlugin([
+  //   //   /css\.d\.ts$/,
+  //   //   /sass\.d\.ts$/,
+  //   // ]),
+
+  //   // Perform type checking and linting in a separate process to speed up compilation
+  //   new ForkTsCheckerWebpackPlugin({
+  //     async: false,
+  //     watch: paths.appSrc,
+  //     tsconfig: paths.appTsConfig,
+  //     tslint: paths.appTsLint,
+  //   }),
+
+  //   new ExtractTextPlugin({
+  //     filename: cssFilename,
+  //   }),
+  // ],
   // Some libraries import Node modules but don't use them in the browser.
   // Tell Webpack to provide empty mocks for them so importing them works.
   node: {

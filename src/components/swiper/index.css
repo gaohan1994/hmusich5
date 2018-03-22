@@ -1,8 +1,9 @@
 .container {
+    position: relative;
     width: 720px;
     height: 350px;
     float: left;    
-    position: relative;
+    overflow: hidden;
     background: #dddddd;
 }
 
@@ -13,9 +14,11 @@
 .itemlabel {
     width: 160px;
     height: 40px;
+    line-height: 40px;
     position: absolute;
     right: 0;
     bottom: 30px;
+    font-size: 12px;
     border-radius: 30px 0 0 30px;
     background: #f5ad72;
     text-align: center;
@@ -42,6 +45,8 @@
 }
 
 .trig > span {
+    -webkit-transition: all .2s ease-out;
+    transition: all .2s ease-out;
     display: inline-block;
     background: #ffffff;
     width: 26px;
@@ -51,4 +56,25 @@
 
 .trig > .on {
     background: #f27a7a;
+}
+
+.images {
+    width: 600%;
+    overflow: hidden;
+    float: left;
+    position: relative;
+    height: 100%;
+    -webkit-transition: all .2s ease-out;
+    transition: all .2s ease-out;
+}
+
+.images > li {
+    display: list-item;
+    position: relative;
+    float: left;
+    width: 720px;
+    height: 100%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
 }
