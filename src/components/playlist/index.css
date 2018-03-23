@@ -61,6 +61,7 @@
 }
 
 .item {
+    list-style: none;
     display: list-item;
     position: relative;
     float: left;

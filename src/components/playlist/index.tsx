@@ -3,6 +3,10 @@ import * as CSSModules from 'react-css-modules';
 import * as styles from './index.css';
 import { PlaylistType, UserType } from '../../types/componentTypes';
 import config from '../../config/index';
+import SwipeableViews from 'react-swipeable-views';
+import { autoPlay } from 'react-swipeable-views-utils';
+
+const AutoSwipeableViews = autoPlay(SwipeableViews);
 
 type PlaylistReceiveData = {
     playlists: Array<PlaylistType>;
@@ -27,50 +31,11 @@ interface State {
  */
 class Playlists extends React.Component<Props, State> {
 
-    private timer: any;
-
     constructor(props: Props) {
         super(props);
         this.state = {
             current: 1,
         };
-    }
-
-    public changePage = (e: number) => {
-        this.setState({
-            current: e
-        });
-    }
-
-    public turn = (n: number) => {
-        const { current } = this.state;
-        const { data } = this.props;
-        const playlists: any = data && data[0];
-        const length = playlists.playlists.length;
-
-        let _n = current + n;
-        if (_n > length) {
-            _n = _n - length;
-        }
-        if (_n < 0) {
-            _n = 0;
-        } 
-
-        this.setState({
-            current: _n
-        });
-    }
-
-    autoPlay = () => {
-        this.timer = setInterval(() => {this.turn(1); } , 5000);
-    }
-
-    componentDidMount() {
-        this.autoPlay();
-    }
-
-    componentWillUnmount() {
-        clearInterval(this.timer);
     }
 
     render() {
@@ -107,19 +72,37 @@ class Playlists extends React.Component<Props, State> {
             });
         }
         
+        const style = {
+            width: '100%',
+            height: '100%'
+        };
+
+        const containerStyle = {
+            width: '100%',
+            height: '100%'
+        };
+
         return (
             <section styleName="container">
                 <ul styleName="trig">
                     {trigs}
                 </ul>
-                <ul 
-                    styleName="playlist"
-                    style={{width: '500%', marginLeft: `${-((current - 1) * 100)}%`}}
+                <AutoSwipeableViews
+                     autoplay={true}
+                     style={style}
+                     containerStyle={containerStyle}
+                     onChangeIndex={this.onChangeIndex}
                 >
                     {lists}
-                </ul>
+                </AutoSwipeableViews>
             </section>
         );
+    }
+
+    private readonly onChangeIndex = (index: number, indexLast: number): void => {
+        this.setState({
+            current: index + 1
+        });
     }
 
     private renderPlaylist = (data?: PlaylistType): JSX.Element => {
