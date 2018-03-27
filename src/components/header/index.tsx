@@ -9,7 +9,7 @@ interface Props {
 interface State {
     
 }
-// @CSSModules(styles)
+
 class Header extends React.Component<Props, State> {
 
     constructor(props: Props) {
@@ -20,9 +20,17 @@ class Header extends React.Component<Props, State> {
         return (
             <header styleName="container">
                 <div styleName="logo"/>
-                <div styleName="download"/>
+                <div styleName="download" onClick={this.clickHandle}/>
+                <i 
+                    styleName="search"
+                    onClick={this.clickHandle}
+                />
             </header>
         );
+    }
+
+    private clickHandle = () => {
+        window.location.href = 'http://www.huanmusic.com/download.html';
     }
 }
 

@@ -4,6 +4,7 @@ import * as CSSModules from 'react-css-modules';
 import { bindActionCreators } from 'redux';
 import { MainActions } from '../../actions/main';
 import * as styles from './index.css';
+import config from '../../config/index';
 
 import Header from '../../components/header';
 import Swiper from '../../components/swiper';
@@ -18,7 +19,7 @@ import {
     TribesType, 
     WrapImagesType,
     MainNewMusicsType,
-    PlaylistsType,
+    MainPlaylistsType
 } from '../../types/componentTypes';
 
 import { 
@@ -36,7 +37,7 @@ import {
 } from '../../reducers/main';
 
 export interface Props {
-    getPlaylist             : PlaylistsType;
+    getPlaylist             : MainPlaylistsType;
     getTribe                : TribesType;
     getWrapImages           : WrapImagesType;
     getMainNewMusics        : MainNewMusicsType;
@@ -74,6 +75,18 @@ class Main extends React.Component<Props, State> {
         loadMainNewMusics();
     }
 
+    public onMoreClickHandle = (index: string): void => {
+        if (config.debug) {
+            window.open(`http://www-dev.huanmusic.com/${index}`);
+        } else {
+            window.open(`http://www.huanmusic.com/music/${index}`);
+        }  
+    }
+
+    public onDownloadClickHandle = () => {
+        window.location.href = 'http://www.huanmusic.com/download.html';
+    }
+
     render() {
         const { getWrapImages } = this.props;
         return (
@@ -100,7 +113,10 @@ class Main extends React.Component<Props, State> {
         ));
         return (
             <section styleName="daliymusic">
-                <i styleName="more"/>
+                <i 
+                    styleName="more"
+                    onClick={this.onDownloadClickHandle}
+                />
                 <div styleName="title">
                     <i styleName="icon"/>
                 </div>
@@ -113,7 +129,10 @@ class Main extends React.Component<Props, State> {
         const { getPlaylist } = this.props;
         return (
             <section styleName="playlists">
-                <i styleName="listmore"/>
+                <i 
+                    styleName="listmore"
+                    onClick={() => this.onMoreClickHandle('playlists')}
+                />
                 <div styleName="listtitle">
                     <i styleName="listicon"/>
                 </div>
@@ -138,12 +157,15 @@ class Main extends React.Component<Props, State> {
         ));
         return (
             <section styleName="tribes">
-                <i styleName="more"/>
+                <i 
+                    styleName="more"
+                    onClick={this.onDownloadClickHandle}
+                />
                 <div styleName="title">
                     <i styleName="tribeIcon"/>
                 </div>
                 <ul styleName="tribesBox">
-                    {tribes}
+                    {tribes.slice(0, 4)}
                 </ul>
             </section>
         );

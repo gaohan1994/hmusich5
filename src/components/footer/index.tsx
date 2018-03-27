@@ -20,9 +20,13 @@ class Footer extends React.Component<Props, State> {
         return (
             <footer styleName="container">
                 <div styleName="logo"/>
-                <div styleName="download"/>
+                <div styleName="download" onClick={this.clickHandle}/>
             </footer>
         );
+    }
+
+    private clickHandle = () => {
+        window.location.href = 'http://www.huanmusic.com/download.html';
     }
 }
 

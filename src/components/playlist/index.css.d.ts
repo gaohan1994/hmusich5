@@ -13,3 +13,4 @@ export const userName: string;
 export const collectNumber: string;
 export const name: string;
 export const reason: string;
+export const imageItem: string;

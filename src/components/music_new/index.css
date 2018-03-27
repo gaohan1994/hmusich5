@@ -42,9 +42,9 @@
     background-image: url('http://net.huanmusic.com/www/h5/%E6%92%AD%E6%94%BE%E6%8C%89%E9%92%AE-%E6%8B%B7%E8%B4%9D-2.png');
 }
 
-.musicname, singername {
+.musicname, .singername {
     float: left;
-    width: 100%;
+    width: 200px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis; 
@@ -52,12 +52,13 @@
 
 .musicname {
     margin-top: 10px;
-    font-size: 16px;
+    font-size: 24px;
     font-weight: bold;
     color: #383838;
 }
 
 .singername {
-    font-size: 12px;
+    font-size: 20px;
     color: #999999;
+    line-height: 24px;
 }

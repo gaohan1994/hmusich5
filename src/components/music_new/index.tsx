@@ -19,12 +19,15 @@ class Music extends React.Component<Props, State> {
     render() {
         const { music } = this.props;
         return (
-            <section styleName="container">
+            <section 
+                styleName="container"
+                onClick={this.clickHandle}
+            >
                 <div 
                     styleName="cover"
                     style={{backgroundImage: music.pics 
-                        ? `url(http://${config.host.pic}/${music.pics[0]}?imageView/2/w/80/h/80)` 
-                        : `url(${config.empty_pic}?imageView/2/w/80/h/80)`}}    
+                        ? `url(http://${config.host.pic}/${music.pics[0]})` 
+                        : `url(${config.empty_pic}?imageView/2/w/100/h/100/q/100)`}}    
                 >
                     <div styleName="mask"/>
                 </div>
@@ -34,17 +37,19 @@ class Music extends React.Component<Props, State> {
         );
     }
 
+    private clickHandle = (): void => {
+        const { music } = this.props;
+        if (config.debug) {
+            window.open(`http://www-dev.huanmusic.com/music/${music._id}`);
+        } else {
+            window.open(`http://www.huanmusic.com/music/${music._id}`);
+        }  
+    }
+
     private renderSingers = (singers: Array<SingerType>): JSX.Element => {
-        const data = singers.map((item: SingerType, i) => (
-            <span
-                key={`mainmusics` + item._id}
-            >
-                {item.name}
-                {i + 1 === singers.length ? `` : `，`}
-            </span>
-        ));
+        const data = singers.map((item: SingerType, i) => item.name);
         return (
-            <span styleName="singername">{data}</span>
+            <span styleName="singername">{data.join('，')}</span>
         );
     }
 }

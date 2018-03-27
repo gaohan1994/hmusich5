@@ -51,6 +51,14 @@ export type PlaylistType = {
 
 export type PlaylistsType = Array<PlaylistType>;
 
+export type MainPlaylistsType = Array<{
+    _id         : string;
+    playlists   : Array<PlaylistType>;
+    publish_date: string;
+    status      ?: number;
+    __v         ?: number;
+}>;
+
 export type TribeType = {
     _id             : string;
     article_count   : number;

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as CSSModules from 'react-css-modules';
 import * as styles from './index.css';
-import { PlaylistType, UserType } from '../../types/componentTypes';
+import { PlaylistType, UserType, MainPlaylistsType } from '../../types/componentTypes';
 import config from '../../config/index';
 import SwipeableViews from 'react-swipeable-views';
 import { autoPlay } from 'react-swipeable-views-utils';
@@ -13,7 +13,7 @@ type PlaylistReceiveData = {
 };
 
 interface Props {
-    data?: Array<Object>;
+    data?: MainPlaylistsType;
 }
 
 interface State {
@@ -34,7 +34,7 @@ class Playlists extends React.Component<Props, State> {
     constructor(props: Props) {
         super(props);
         this.state = {
-            current: 1,
+            current: 0,
         };
     }
 
@@ -53,18 +53,19 @@ class Playlists extends React.Component<Props, State> {
                     item.playlists.map((list: PlaylistType, i: number) => {
                         
                         lists.push(
-                            <li 
+                            <div 
                                 styleName="item"
                                 key={list._id}
+                                onClick={this.clickHandle.bind(this, list._id)}
                             >   
                                 {this.renderPlaylist(list)}
-                            </li>
+                            </div>
                         );
 
                         trigs.push(
                             <span 
                                 key={i}
-                                styleName={current === i + 1 ? `on` : ``}
+                                styleName={current === i ? `on` : ``}
                             />
                         );
                     });
@@ -73,7 +74,7 @@ class Playlists extends React.Component<Props, State> {
         }
         
         const style = {
-            width: '100%',
+            width: '77.778vw',
             height: '100%'
         };
 
@@ -88,10 +89,12 @@ class Playlists extends React.Component<Props, State> {
                     {trigs}
                 </ul>
                 <AutoSwipeableViews
-                     autoplay={true}
-                     style={style}
-                     containerStyle={containerStyle}
-                     onChangeIndex={this.onChangeIndex}
+                    autoplay={true}
+                    style={style}
+                    index={current}
+                    containerStyle={containerStyle}
+                    onChangeIndex={this.onChangeIndex}
+                    enableMouseEvents={true}
                 >
                     {lists}
                 </AutoSwipeableViews>
@@ -99,20 +102,29 @@ class Playlists extends React.Component<Props, State> {
         );
     }
 
+    private clickHandle = (id: string) => {
+        if (config.debug) {
+            window.open(`http://www-dev.huanmusic.com/playlist/${id}`);
+        } else {
+            window.open(`http://www.huanmusic.com/playlist/${id}`);
+        }  
+    }
+
     private readonly onChangeIndex = (index: number, indexLast: number): void => {
         this.setState({
-            current: index + 1
+            current: index
         });
     }
 
     private renderPlaylist = (data?: PlaylistType): JSX.Element => {
         
         return (
-            <div 
-                styleName="itemBox"
-                style={{backgroundImage: data && data.pics && data.pics[0] 
-                        ? `url(http://${config.host.pic}/${data.pics[0]})` : `${config.empty_pic}`}}
-            >
+            <div styleName="itemBox">
+                <i
+                    styleName="imageItem"
+                    style={{backgroundImage: data && data.pics && data.pics[0] 
+                        ? `url("http://${config.host.pic}/${data.pics[0]}")` : `${config.empty_pic}`}}
+                />
                 {this.renderPlaylistUser(data && data.user)}
                 {this.renderPlaylistIcon(data && data.status)}
                 {this.renderPlaylistName(data && data.name)}
