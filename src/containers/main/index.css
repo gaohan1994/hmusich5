@@ -51,6 +51,7 @@
     more 公共CSS
 */
 .more, .listmore {
+    z-index: 10;
     display: block;
     position: absolute;
     background-repeat: no-repeat;

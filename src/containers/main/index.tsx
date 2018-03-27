@@ -9,7 +9,7 @@ import config from '../../config/index';
 import Header from '../../components/header';
 import Swiper from '../../components/swiper';
 import Music from '../../components/music_new';
-import Playlists from '../../components/playlist';
+import Playlists from '../../components/playlists';
 import Tribe from '../../components/tribe';
 import Footer from '../../components/footer';
 
@@ -79,11 +79,12 @@ class Main extends React.Component<Props, State> {
         if (config.debug) {
             window.open(`http://www-dev.huanmusic.com/${index}`);
         } else {
-            window.open(`http://www.huanmusic.com/music/${index}`);
+            window.open(`http://www.huanmusic.com/${index}`);
         }  
     }
 
     public onDownloadClickHandle = () => {
+        console.log('hello');
         window.location.href = 'http://www.huanmusic.com/download.html';
     }
 

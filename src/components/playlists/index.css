@@ -137,12 +137,12 @@
 
 .name, .reason {
     color: #ffffff;
+    white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis; 
 }
 
 .name {
-    white-space: nowrap;
     font-size: 22px;
     position: absolute;
     width: 300px;
@@ -152,17 +152,15 @@
 }
 
 .reason {
-    font-size: 22px;
+    font-size: 20px;
     position: absolute;
     width: 520px;
     top: 220px;
     left: 20px;
-    height: 54px;
-    line-height: 27px;
+    line-height: 22px;
 }
 
 .imageItem {
-    background-color: #dddddd;
     display: block;
     position: relative;
     float: left;
