@@ -84,7 +84,6 @@ class Main extends React.Component<Props, State> {
     }
 
     public onDownloadClickHandle = () => {
-        console.log('hello');
         window.location.href = 'http://www.huanmusic.com/download.html';
     }
 
@@ -92,6 +91,18 @@ class Main extends React.Component<Props, State> {
         const { getWrapImages } = this.props;
         return (
             <div styleName="container">
+                {/* {
+                    config.debug
+                    ? <div>
+                        <Header/>
+                        <Swiper images={getWrapImages}/>
+                        {this.renderMusics()}
+                        {this.renderPlaylists()}
+                        {this.renderTribes()}
+                        <Footer/>
+                    </div>
+                    : <div>123123</div>
+                } */}
                 <Header/>
                 <Swiper images={getWrapImages}/>
                 {this.renderMusics()}

@@ -1,10 +1,9 @@
-
-
 .container {
     width: 720px;
+    min-height: 100vh;
     padding-bottom: 100px;
-    float: left;
     background-color: #f7f7f7;
+    content: normal !important;
 }
 .container::after {
     content: '';
@@ -13,9 +12,6 @@
     overflow: hidden;
     clear: both;
 }
-/*
-    主页的大模块公共CSS
-*/
 
 .daliymusic, .playlists, .tribes {
     position: relative;
@@ -47,9 +43,6 @@
     clear: both;
 }
 
-/*
-    more 公共CSS
-*/
 .more, .listmore {
     z-index: 10;
     display: block;

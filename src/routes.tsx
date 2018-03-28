@@ -5,8 +5,6 @@ import {
 } from 'react-router-dom';
 
 import Main from './containers/main';
-// import Match from './components/match';
-// import Home from './containers/home';
 
 const routes = (
     <Switch>
