@@ -41,7 +41,7 @@ class Playlist extends React.Component<Props, State> {
                 {this.renderPlaylistUser(data && data.user)}
                 {this.renderPlaylistIcon(data && data.status)}
                 {this.renderPlaylistName(data && data.name)}
-                {this.renderPlaylistReason(data && data.desc)}
+                {this.renderPlaylistReason()}
                 {this.renderPlaylistCollect()}
             </div>
         );
@@ -75,9 +75,18 @@ class Playlist extends React.Component<Props, State> {
         );
     }
 
-    private renderPlaylistReason = (reason?: string): JSX.Element => {
+    private renderPlaylistReason = (): JSX.Element => {
+        const { data } = this.props;
+        let desc: string = '';
+        if (data.r_desc) {
+            desc = data.r_desc.replace(/推荐理由：/, '');
+        } else if (data.desc) {
+            desc = data.desc;
+        } else {
+            desc = '好听~';
+        }
         return (
-            <div styleName="reason">{reason}</div>
+            <div styleName="reason">{desc}</div>
         );
     }
 

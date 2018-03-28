@@ -40,6 +40,7 @@ export type PlaylistType = {
     collect     : number;
     create_date : string;
     desc        ?: string;
+    r_desc      ?: string;
     genres      : Array<Object>;
     musics      : Array<MusicType>;
     name        : string;
